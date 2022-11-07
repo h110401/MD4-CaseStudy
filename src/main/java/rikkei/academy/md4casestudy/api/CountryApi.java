@@ -7,19 +7,20 @@ import org.springframework.web.bind.annotation.*;
 import rikkei.academy.md4casestudy.dto.response.ResponseMessage;
 import rikkei.academy.md4casestudy.model.Country;
 import rikkei.academy.md4casestudy.model.User;
+import rikkei.academy.md4casestudy.security.userprincipal.UserDetailsServiceIMPL;
 import rikkei.academy.md4casestudy.service.country.ICountryService;
 import rikkei.academy.md4casestudy.service.user.IUserService;
 
 import javax.validation.Valid;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/countries")
 public class CountryApi {
     @Autowired
     private ICountryService countryService;
     @Autowired
-    private IUserService userService;
+    private UserDetailsServiceIMPL userDetailsServiceIMPL;
     @GetMapping
     public ResponseEntity<?>showListCountry(){
         Iterable<Country>listCountry = countryService.findAll();
@@ -27,7 +28,7 @@ public class CountryApi {
     }
     @PostMapping
     public ResponseEntity<?>createCountry(@Valid @RequestBody Country country){
-        User currenUser = userService.getCurrentUser();
+        User currenUser = userDetailsServiceIMPL.getCurrentUser();
         if (countryService.existsByName(country.getName())){
             return new ResponseEntity<>(new ResponseMessage("country_invalid"),HttpStatus.OK);
         }
@@ -54,6 +55,11 @@ public class CountryApi {
         countryService.deleteById(id);
         return new ResponseEntity<>(new ResponseMessage("delete_success!"),HttpStatus.OK);
    }
+   @GetMapping("/{id}")
+    public ResponseEntity<?>getCountryById(@PathVariable Long id){
+        return new ResponseEntity<>(countryService.findById(id),HttpStatus.OK);
+   }
+
 
 
 

@@ -83,16 +83,5 @@ public class UserServiceIMPL implements IUserService {
         Role role = roleRepo.findByName(roleName);
         user.getRoles().remove(role);
     }
-    @Override
-    public User getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (String.valueOf(principal).equals("anonymousUser")) {
-            return null;
-        }
-        if (principal instanceof UserPrincipal) {
-            return findByUsernameOrEmail(((UserPrincipal) principal).getUsername());
-        } else {
-            return findByUsernameOrEmail(String.valueOf(principal));
-        }
-    }
+
 }
