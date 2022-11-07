@@ -83,5 +83,4 @@ public class UserServiceIMPL implements IUserService {
         Role role = roleRepo.findByName(roleName);
         user.getRoles().remove(role);
     }
-
 }

@@ -1,0 +1,6 @@
+list -> get /countries
+create -> post /countries
+
+find by id -> get -> /categories/{id}
+            put -> /categories/{id}
+            delete -> /categories/{id}
