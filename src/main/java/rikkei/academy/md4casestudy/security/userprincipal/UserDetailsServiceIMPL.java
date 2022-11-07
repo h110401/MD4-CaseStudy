@@ -1,6 +1,8 @@
 package rikkei.academy.md4casestudy.security.userprincipal;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,4 +21,6 @@ public class UserDetailsServiceIMPL implements UserDetailsService {
                 () -> new UsernameNotFoundException(String.format("User %s not found", username))
         ));
     }
+
+
 }
