@@ -17,7 +17,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/manager/categories")
 public class CategoryApi {
     @Autowired
     private ICategoryService categoryService;
@@ -42,11 +42,12 @@ public class CategoryApi {
 
     }
 
-    //    @GetMapping("/{id}")
-//    public ResponseEntity<?> detailCategory(@PathVariable Long id){
-//
-//    }
-    @PutMapping("/{id} ")
+    @GetMapping("{id}")
+    public ResponseEntity<?> detailCategory(@PathVariable("id") Category category) {
+        return category == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(category);
+    }
+
+    @PutMapping("{id} ")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody Category category) {
         Category category1 = categoryService.findById(id);
         if (category1 == null) {
@@ -58,7 +59,7 @@ public class CategoryApi {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         Category category = categoryService.findById(id);
 

@@ -67,6 +67,12 @@ public class AuthApi {
                     ).collect(Collectors.toList())
             ));
         }
+        if(userService.existsByEmail(signUpDTO.getEmail())) {
+            return ResponseEntity.ok(new ResponseMessage("email-existed"));
+        }
+        if(userService.existsByUsername(signUpDTO.getUsername())) {
+            return ResponseEntity.ok(new ResponseMessage("username-existed"));
+        }
         userService.save(userFactory.build(
                 null,
                 signUpDTO.getName(),
