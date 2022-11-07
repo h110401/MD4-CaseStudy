@@ -23,6 +23,6 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setStatus(SC_UNAUTHORIZED);
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), new ResponseMessage("login-failed"));
+        mapper.writeValue(response.getOutputStream(), new ResponseMessage("authorize-failed"));
     }
 }
