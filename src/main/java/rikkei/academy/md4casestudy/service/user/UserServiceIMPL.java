@@ -3,6 +3,7 @@ package rikkei.academy.md4casestudy.service.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import rikkei.academy.md4casestudy.model.User;
 import rikkei.academy.md4casestudy.model.UserFactory;
 import rikkei.academy.md4casestudy.repo.IRoleRepo;
 import rikkei.academy.md4casestudy.repo.IUserRepo;
+import rikkei.academy.md4casestudy.security.userprincipal.UserPrincipal;
 
 import java.util.List;
 
@@ -81,4 +83,5 @@ public class UserServiceIMPL implements IUserService {
         Role role = roleRepo.findByName(roleName);
         user.getRoles().remove(role);
     }
+
 }
