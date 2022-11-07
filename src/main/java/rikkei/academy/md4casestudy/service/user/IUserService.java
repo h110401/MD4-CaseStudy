@@ -14,4 +14,5 @@ public interface IUserService extends IGenericService<User> {
     void addRoleToUser(String username, RoleName roleName);
 
     void removeRoleOfUser(String username, RoleName roleName);
+    User getCurrentUser();
 }

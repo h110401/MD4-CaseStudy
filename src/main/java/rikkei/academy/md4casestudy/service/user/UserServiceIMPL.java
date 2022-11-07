@@ -3,6 +3,7 @@ package rikkei.academy.md4casestudy.service.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import rikkei.academy.md4casestudy.model.User;
 import rikkei.academy.md4casestudy.model.UserFactory;
 import rikkei.academy.md4casestudy.repo.IRoleRepo;
 import rikkei.academy.md4casestudy.repo.IUserRepo;
+import rikkei.academy.md4casestudy.security.userprincipal.UserPrincipal;
 
 import java.util.List;
 
@@ -80,5 +82,17 @@ public class UserServiceIMPL implements IUserService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", username)));
         Role role = roleRepo.findByName(roleName);
         user.getRoles().remove(role);
+    }
+    @Override
+    public User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (String.valueOf(principal).equals("anonymousUser")) {
+            return null;
+        }
+        if (principal instanceof UserPrincipal) {
+            return findByUsernameOrEmail(((UserPrincipal) principal).getUsername());
+        } else {
+            return findByUsernameOrEmail(String.valueOf(principal));
+        }
     }
 }
