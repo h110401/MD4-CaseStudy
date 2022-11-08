@@ -14,7 +14,7 @@ import rikkei.academy.md4casestudy.service.user.IUserService;
 
 import javax.validation.Valid;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/manager/categories")
 public class CategoryApi {
