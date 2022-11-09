@@ -59,7 +59,7 @@ public class SeriesApi {
                 seriesDTO.getPoster(),
                 seriesDTO.getDescription(),
                 Arrays.stream(seriesDTO.getIdCategories())
-                        .map(id -> categoryService.findById(id))
+                        .map(categoryService::findById)
                         .collect(Collectors.toSet()),
                 countryService.findById(seriesDTO.getIdCountry()),
                 videos,
@@ -82,13 +82,18 @@ public class SeriesApi {
 
     @PutMapping("{id}")
     public ResponseEntity<?> editSeries(
-            @PathVariable("id") Series oldSeries,
-            @RequestBody Series series
+            @PathVariable("id") Series series,
+            @RequestBody SeriesDTO seriesDTO
     ) {
-        if (oldSeries == null) {
+        if (series == null) {
             return new ResponseEntity<>(NOT_FOUND);
         }
-        series.setId(oldSeries.getId());
+        series.setName(seriesDTO.getName());
+        series.setPoster(seriesDTO.getPoster());
+        series.setDescription(seriesDTO.getDescription());
+        series.setCategory(Arrays.stream(seriesDTO.getIdCategories())
+                .map(categoryService::findById).collect(Collectors.toSet()));
+        series.setCountry(countryService.findById(seriesDTO.getIdCountry()));
         return ResponseEntity.ok(seriesService.save(series));
     }
 

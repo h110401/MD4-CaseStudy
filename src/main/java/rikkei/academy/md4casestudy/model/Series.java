@@ -3,6 +3,7 @@ package rikkei.academy.md4casestudy.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,10 +22,12 @@ public class Series {
     private String poster;
     private String description;
     @ManyToMany(fetch = FetchType.EAGER)
+    @NotNull
     private Set<Category> category;
     @ManyToOne
+    @NotNull
     private Country country;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "series_videos",
             joinColumns = {@JoinColumn(name = "series_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "videos_id", referencedColumnName = "id")})
@@ -32,5 +35,6 @@ public class Series {
     private Map<Integer, Video> videos;
 
     @ManyToOne
+    @NotNull
     private User user;
 }
