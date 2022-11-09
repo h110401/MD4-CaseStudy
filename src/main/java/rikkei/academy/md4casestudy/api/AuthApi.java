@@ -14,6 +14,7 @@ import rikkei.academy.md4casestudy.dto.response.JwtResponse;
 import rikkei.academy.md4casestudy.dto.response.ResponseMessage;
 import rikkei.academy.md4casestudy.model.RoleName;
 import rikkei.academy.md4casestudy.model.UserFactory;
+import rikkei.academy.md4casestudy.model.Video;
 import rikkei.academy.md4casestudy.security.jwt.JwtProvider;
 import rikkei.academy.md4casestudy.security.userprincipal.UserPrincipal;
 import rikkei.academy.md4casestudy.service.role.IRoleService;
@@ -21,6 +22,8 @@ import rikkei.academy.md4casestudy.service.user.IUserService;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,7 +49,7 @@ public class AuthApi {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         return ResponseEntity.ok(new JwtResponse(
-                jwtProvider.createToken(authentication),
+                jwtProvider.getJwtConfig().getTokenPrefix() + jwtProvider.createToken(authentication),
                 principal.getName(),
                 principal.getAvatar(),
                 principal.getAuthorities()
@@ -67,10 +70,10 @@ public class AuthApi {
                     ).collect(Collectors.toList())
             ));
         }
-        if(userService.existsByEmail(signUpDTO.getEmail())) {
+        if (userService.existsByEmail(signUpDTO.getEmail())) {
             return ResponseEntity.ok(new ResponseMessage("email-existed"));
         }
-        if(userService.existsByUsername(signUpDTO.getUsername())) {
+        if (userService.existsByUsername(signUpDTO.getUsername())) {
             return ResponseEntity.ok(new ResponseMessage("username-existed"));
         }
         userService.save(userFactory.build(
@@ -82,5 +85,12 @@ public class AuthApi {
                 Collections.singleton(roleService.findByName(RoleName.USER))
         ));
         return ResponseEntity.ok(new ResponseMessage("signup-success"));
+    }
+
+    @GetMapping("test")
+    public ResponseEntity<?> test() {
+        Map<Integer, Video> test = new HashMap<>();
+        test.put(1, new Video());
+        return ResponseEntity.ok(test);
     }
 }

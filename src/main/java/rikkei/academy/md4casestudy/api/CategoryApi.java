@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/manager/categories")
+@CrossOrigin
 public class CategoryApi {
     @Autowired
     private ICategoryService categoryService;

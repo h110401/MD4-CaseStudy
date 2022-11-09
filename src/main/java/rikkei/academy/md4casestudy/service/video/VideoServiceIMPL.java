@@ -10,12 +10,14 @@ import rikkei.academy.md4casestudy.model.Video;
 import rikkei.academy.md4casestudy.repo.IVideoRepository;
 
 import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class VideoServiceIMPL implements IVideoService{
+public class VideoServiceIMPL implements IVideoService {
     @Autowired
     private IVideoRepository videoRepository;
+
     @Override
     public List<Video> findAll() {
         return videoRepository.findAll();
@@ -45,5 +47,10 @@ public class VideoServiceIMPL implements IVideoService{
     @Override
     public Boolean existsByName(String name) {
         return videoRepository.existsByName(name);
+    }
+
+    @Override
+    public List<Video> findByName(String name) {
+        return videoRepository.findByNameContaining(name);
     }
 }
