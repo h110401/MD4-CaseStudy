@@ -17,6 +17,7 @@ import rikkei.academy.md4casestudy.repo.IUserRepo;
 import rikkei.academy.md4casestudy.security.userprincipal.UserPrincipal;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -82,5 +83,10 @@ public class UserServiceIMPL implements IUserService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", username)));
         Role role = roleRepo.findByName(roleName);
         user.getRoles().remove(role);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepo.findByUsername(username);
     }
 }
