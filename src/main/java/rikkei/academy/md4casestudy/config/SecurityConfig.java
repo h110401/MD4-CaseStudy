@@ -43,12 +43,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors().and()
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
 
                 .authorizeRequests(auth -> auth
 
-                        .antMatchers("/api/manager/**").hasAnyRole(ADMIN.name(), PM.name())
+//                        .antMatchers("/api/manager/**").hasAnyRole(ADMIN.name(), PM.name())
 
                         .anyRequest().permitAll()
                 )

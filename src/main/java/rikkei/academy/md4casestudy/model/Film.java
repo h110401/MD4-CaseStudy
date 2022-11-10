@@ -6,20 +6,26 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
-@CrossOrigin
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name = "videos")
-@Data
+@Table(name = "films")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Video {
+@Data
+public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String url;
     private String name;
-    private long view;
-    private int rate;
+    @OneToOne
+    private Video video;
+    @OneToMany
+    Set<Category> categories = new HashSet<>();
+    @ManyToOne
+    private Country country;
     @ManyToOne
     private User user;
+
 }
