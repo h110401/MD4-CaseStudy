@@ -80,6 +80,13 @@ public class SeriesApi {
         return ResponseEntity.ok(series);
     }
 
+    @GetMapping("/search/{search}")
+    public ResponseEntity<?> findByName(
+            @PathVariable String search
+    ) {
+        return ResponseEntity.ok(seriesService.findByName(search));
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<?> editSeries(
             @PathVariable("id") Series series,
