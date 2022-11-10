@@ -40,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String getToken(HttpServletRequest request) {
+    public String getToken(HttpServletRequest request) {
         String authHeader = request.getHeader(AUTHORIZATION);
         String token = null;
         if (authHeader != null && authHeader.startsWith(jwtProvider.getJwtConfig().getTokenPrefix())) {
@@ -48,4 +48,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
         return token;
     }
+//    public String getJwt(HttpServletRequest request){
+//        String authHeader = request.getHeader("Authorization");
+//        if (authHeader != null && authHeader.startsWith("Bearer")){
+//            return authHeader.replace("bearer","");
+//        }
+//        return null;
+//    }
 }

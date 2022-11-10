@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignUpDTO {
-    @NotBlank
-    @Size(min = 3, max = 50)
+//    @NotBlank
+//    @Size(min = 3, max = 50)
     private String name;
     @NotBlank
     @Size(min = 3, max = 50)
@@ -24,6 +24,6 @@ public class SignUpDTO {
     @NotBlank
     @Size(min = 3, max = 50)
     private String email;
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
+//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     private String password;
 }
