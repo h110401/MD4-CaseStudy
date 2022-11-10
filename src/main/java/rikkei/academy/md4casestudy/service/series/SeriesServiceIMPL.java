@@ -67,7 +67,7 @@ public class SeriesServiceIMPL implements ISeriesService {
     }
 
     @Override
-    public Series findByName(String name) {
+    public List<Series> findByName(String name) {
         return seriesRepo.findByNameContaining(name);
     }
 
