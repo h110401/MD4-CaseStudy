@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import rikkei.academy.md4casestudy.dto.request.ChangeAvatar;
 import rikkei.academy.md4casestudy.dto.request.ChangePassword;
 import rikkei.academy.md4casestudy.dto.request.LoginDTO;
 import rikkei.academy.md4casestudy.dto.request.SignUpDTO;
@@ -115,6 +116,26 @@ public class AuthApi {
             return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
         } catch (UsernameNotFoundException exception){
             return new ResponseEntity<>(new ResponseMessage(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/change_avatar")
+    public ResponseEntity<?>changeAvatar(HttpServletRequest httpServletRequest, @Valid @RequestBody ChangeAvatar changeAvatar){
+        String jwt = jwtTokenFilter.getToken(httpServletRequest);
+        String username = jwtProvider.getUsernameFromToken(jwt);
+        User user;
+        try{
+            if (changeAvatar.getAvatar()==null){
+                return new ResponseEntity<>(new ResponseMessage("no"),HttpStatus.OK);
+            }
+            else {
+                user = userService.findByUsernameOrEmail(username);
+                user.setAvatar(changeAvatar.getAvatar());
+                userService.save(user);
+            }
+            return new ResponseEntity<>(new ResponseMessage("yes"),HttpStatus.OK);
+
+        }catch (UsernameNotFoundException e){
+            return new ResponseEntity<>(new ResponseMessage(e.getMessage()),HttpStatus.NOT_FOUND);
         }
     }
 }
