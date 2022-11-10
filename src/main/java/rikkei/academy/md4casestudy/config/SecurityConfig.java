@@ -49,9 +49,7 @@ public class SecurityConfig {
 
                 .authorizeRequests(auth -> auth
                         .antMatchers(HttpMethod.GET, "/api/manager/**").permitAll()
-
                         .antMatchers("/api/manager/**").hasAnyRole(ADMIN.name(), PM.name())
-
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(e -> e.authenticationEntryPoint(jwtEntryPoint()))
