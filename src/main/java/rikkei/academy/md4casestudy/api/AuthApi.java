@@ -138,4 +138,22 @@ public class AuthApi {
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()),HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping
+    public ResponseEntity<?>showlistUsers(){
+        Iterable<User>list = userService.findAll();
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?>deleteUser(@PathVariable Long id){
+        User user = userService.findById(id);
+        if (user == null) {
+            return new ResponseEntity<>(new ResponseMessage("user does not exist!"), HttpStatus.OK);
+        }
+        userService.deleteById(id);
+        return new ResponseEntity<>(new ResponseMessage("delete_success!"), HttpStatus.OK);
+    };
+    @GetMapping("/{id}")
+    public ResponseEntity<?>GetUserById(@PathVariable Long id){
+        return new ResponseEntity<>(userService.findById(id),HttpStatus.OK);
+    }
 }
